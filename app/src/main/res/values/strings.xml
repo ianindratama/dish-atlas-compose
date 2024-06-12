@@ -8,4 +8,6 @@
     <string name="get_to_know_me_more">Get to know me more</string>
     <string name="creator_url">https://github.com/ianindratama</string>
     <string name="pick_a_browser">Pick a browser:</string>
+    <string name="no_foods_available">No Foods Available</string>
+    <string name="error_has_occured">An error has occured.\\nFailed to load data</string>
 </resources>
