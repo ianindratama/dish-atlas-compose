@@ -3,4 +3,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_favorite">Favorite</string>
     <string name="menu_profile">Profile</string>
+    <string name="creator_name">Project author</string>
+    <string name="creator_email">Contact details omitted</string>
+    <string name="get_to_know_me_more">Get to know me more</string>
+    <string name="creator_url">https://github.com/ianindratama</string>
+    <string name="pick_a_browser">Pick a browser:</string>
 </resources>

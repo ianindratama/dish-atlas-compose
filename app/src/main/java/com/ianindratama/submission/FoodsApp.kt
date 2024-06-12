@@ -1,11 +1,13 @@
 package com.ianindratama.submission
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -79,7 +82,12 @@ fun FoodsApp(
                 FavoriteScreen()
             }
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                val context = LocalContext.current
+                ProfileScreen(
+                    onClick = {
+                        toCreatorPage(context, it)
+                    }
+                )
             }
             composable(
                 route = Screen.DetailFood.route,
@@ -133,6 +141,19 @@ fun BottomBar(
         }
     }
 
+}
+
+private fun toCreatorPage(context: Context, url: String) {
+
+    val webPage = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW, webPage)
+
+    context.startActivity(
+        Intent.createChooser(
+            intent,
+            context.getString(R.string.pick_a_browser)
+        )
+    )
 }
 
 @Preview(showBackground = true)
