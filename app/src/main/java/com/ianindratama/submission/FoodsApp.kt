@@ -48,17 +48,20 @@ fun FoodsApp(
         NavigationItem(
             title = stringResource(id = R.string.menu_home),
             icon = Icons.Default.Home,
-            screen = Screen.Home
+            screen = Screen.Home,
+            screenDescription = stringResource(id = R.string.menu_home_description)
         ),
         NavigationItem(
             title = stringResource(id = R.string.menu_favorite),
             icon = Icons.Default.Favorite,
-            screen = Screen.Favorite
+            screen = Screen.Favorite,
+            screenDescription = stringResource(id = R.string.menu_favorite_description)
         ),
         NavigationItem(
             title = stringResource(id = R.string.menu_profile),
             icon = Icons.Default.AccountCircle,
-            screen = Screen.Profile
+            screen = Screen.Profile,
+            screenDescription = stringResource(id = R.string.menu_profile_description)
         )
     )
     
