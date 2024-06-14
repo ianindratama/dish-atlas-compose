@@ -27,6 +27,12 @@ class FoodRepository {
         }
     }
 
+    fun searchFoods(query: String): List<Food> {
+        return listOfFavoriteFood.filter {
+            it.name.contains(query, ignoreCase = true)
+        }
+    }
+
     companion object {
 
         @Volatile

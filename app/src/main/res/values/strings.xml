@@ -20,4 +20,6 @@
     <string name="timeToMake_value">Time to make: %1s</string>
     <string name="description">Description</string>
     <string name="description_value">Description: %1s</string>
+    <string name="search">Search</string>
+    <string name="search_food">Search Food</string>
 </resources>

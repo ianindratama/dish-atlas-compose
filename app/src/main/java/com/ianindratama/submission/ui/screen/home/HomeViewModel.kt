@@ -1,5 +1,7 @@
 package com.ianindratama.submission.ui.screen.home
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianindratama.submission.data.FoodRepository
@@ -14,9 +16,20 @@ class HomeViewModel(
     private val repository: FoodRepository
 ): ViewModel() {
 
+    private val _query = mutableStateOf("")
+    val query: State<String> get() = _query
+
     private val _uiState: MutableStateFlow<UiState<List<Food>>> = MutableStateFlow(UiState.Loading)
     val uiState: StateFlow<UiState<List<Food>>>
         get() = _uiState
+
+    fun search(newQuery: String) {
+        _query.value = newQuery
+        _uiState.value = UiState.Success(
+            repository.searchFoods(_query.value)
+                .sortedBy { it.name }
+        )
+    }
 
     fun getAllFoods() {
         viewModelScope.launch {
