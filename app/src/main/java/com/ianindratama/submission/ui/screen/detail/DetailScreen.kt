@@ -1,0 +1,194 @@
+package com.ianindratama.submission.ui.screen.detail
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.VerticalAlignmentLine
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import com.ianindratama.submission.R
+import com.ianindratama.submission.ViewModelFactory
+import com.ianindratama.submission.di.Injection
+import com.ianindratama.submission.ui.common.UiState
+
+@Composable
+fun DetailScreen(
+    foodId: Long,
+    viewModel: DetailFoodViewModel = viewModel(
+        factory = ViewModelFactory(
+            Injection.provideRepository()
+        )
+    ),
+    navigateBack: () -> Unit,
+    navigateToFavorite: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
+        when (uiState) {
+            is UiState.Loading -> {
+                viewModel.getFoodById(foodId)
+            }
+            is UiState.Success -> {
+                val data = uiState.data
+                DetailContent(
+                    name = data.name,
+                    pictureUrl = data.foodPictureUrl,
+                    origin = data.origin,
+                    timeToMake = data.timeToMake,
+                    description = data.description,
+                    isFavorite = data.isFavorite,
+                    onBackClick = navigateBack
+                )
+
+            }
+            is UiState.Error -> {}
+
+        }
+    }
+}
+
+@Composable
+fun DetailContent(
+    name: String,
+    pictureUrl: String,
+    origin: String,
+    timeToMake: String,
+    description: String,
+    isFavorite: Boolean,
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
+        ) {
+            Box {
+                AsyncImage(
+                    model = pictureUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = modifier
+                        .height(400.dp)
+                        .fillMaxWidth()
+                )
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back),
+                    modifier = modifier
+                        .padding(16.dp)
+                        .size(32.dp)
+                        .background(
+                            color = Color.White,
+                            shape = CircleShape,
+                        )
+                        .clickable { onBackClick() }
+                )
+            }
+            Text(
+                text = name,
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold
+                ),
+                modifier = Modifier
+                    .padding(8.dp)
+            )
+            FoodInformationDetail(
+                icon = Icons.Default.LocationOn,
+                iconContentDescription = stringResource(id = R.string.origin),
+                information = stringResource(R.string.origin_value, origin)
+            )
+            FoodInformationDetail(
+                icon = Icons.Default.DateRange,
+                iconContentDescription = stringResource(id = R.string.timeToMake),
+                information = stringResource(R.string.timeToMake_value, timeToMake)
+            )
+            FoodInformationDetail(
+                icon = Icons.Default.Info,
+                iconContentDescription = stringResource(id = R.string.description),
+                information = stringResource(R.string.description_value, description)
+            )
+        }
+        FloatingActionButton(
+            onClick = { /*TODO*/ },
+            modifier = modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd)
+        ) {
+            Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = null)
+        }
+    }
+
+}
+
+@Composable
+fun FoodInformationDetail(
+    icon: ImageVector,
+    iconContentDescription: String,
+    information: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .padding(8.dp)
+    ) {
+        Icon(imageVector = icon, contentDescription = iconContentDescription)
+        Text(
+            text = information,
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 16.sp
+            ),
+            modifier = Modifier
+                .padding(horizontal = 4.dp)
+        )
+    }
+}

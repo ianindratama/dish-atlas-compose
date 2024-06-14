@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ianindratama.submission.ui.navigation.NavigationItem
 import com.ianindratama.submission.ui.navigation.Screen
+import com.ianindratama.submission.ui.screen.detail.DetailScreen
 import com.ianindratama.submission.ui.screen.favorite.FavoriteScreen
 import com.ianindratama.submission.ui.screen.home.HomeScreen
 import com.ianindratama.submission.ui.screen.profile.ProfileScreen
@@ -76,7 +77,11 @@ fun FoodsApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(
+                    navigateToDetail = { foodId ->
+                        navController.navigate(Screen.DetailFood.createRoute(foodId))
+                    }
+                )
             }
             composable(Screen.Favorite.route) {
                 FavoriteScreen()
@@ -97,7 +102,14 @@ fun FoodsApp(
                     }
                 )
             ) {
-
+                val id = it.arguments?.getLong("foodId") ?: -1L
+                DetailScreen(
+                    foodId = id,
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                    navigateToFavorite = {}
+                )
             }
         }
         

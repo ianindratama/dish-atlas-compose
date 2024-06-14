@@ -40,7 +40,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository())
     ),
-    navigateToDetail: (Long) -> Unit = {}
+    navigateToDetail: (Long) -> Unit
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState -> 
         when (uiState) {
@@ -79,9 +79,11 @@ fun HomeContent(
     LazyColumn {
         items(foods, key = { it.id }) { food ->
             FoodListItem(
+                id = food.id,
                 name = food.name,
                 origin = food.origin,
                 photoUrl = food.foodPictureUrl,
+                navigateToDetail = navigateToDetail,
                 modifier = modifier
                     .fillMaxWidth()
                     .animateItemPlacement(tween(durationMillis = 100))
@@ -105,14 +107,18 @@ fun NoDataToBeDisplayedContent(
 
 @Composable
 fun FoodListItem(
+    id: Long,
     name: String,
     origin: String,
     photoUrl: String,
+    navigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable {  }
+        modifier = modifier.clickable {
+            navigateToDetail(id)
+        }
     ) {
         AsyncImage(
             model = photoUrl,
@@ -132,7 +138,7 @@ fun FoodListItem(
                     .padding(start = 16.dp)
             )
             Text(
-                text = "From: $origin",
+                text = "Origin: $origin",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp)
@@ -146,9 +152,11 @@ fun FoodListItem(
 private fun FoodListItemPreview() {
     SubmissionTheme {
         FoodListItem(
+            id = 1,
             name = "Nasi Goreng",
             origin = "Indonesia",
-            photoUrl = ""
+            photoUrl = "",
+            navigateToDetail = {}
         )
     }
 }

@@ -21,6 +21,12 @@ class FoodRepository {
         return flowOf(listOfFavoriteFood)
     }
 
+    fun getFoodById(foodId: Long): Food{
+        return listOfFavoriteFood.first {
+            it.id == foodId
+        }
+    }
+
     companion object {
 
         @Volatile

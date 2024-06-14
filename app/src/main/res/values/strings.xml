@@ -10,4 +10,11 @@
     <string name="pick_a_browser">Pick a browser:</string>
     <string name="no_foods_available">No Foods Available</string>
     <string name="error_has_occured">An error has occured.\\nFailed to load data</string>
+    <string name="back">Back</string>
+    <string name="origin">"Origin"</string>
+    <string name="origin_value">Origin: %1s</string>description
+    <string name="timeToMake">Time to make</string>
+    <string name="timeToMake_value">Time to make: %1s</string>
+    <string name="description">Description</string>
+    <string name="description_value">Description: %1s</string>
 </resources>

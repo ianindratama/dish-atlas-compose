@@ -1,7 +1,7 @@
 package com.ianindratama.submission.model
 
 data class Food(
-    val id: Int,
+    val id: Long,
     val name: String,
     val foodPictureUrl: String,
     val origin: String,
