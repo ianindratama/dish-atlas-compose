@@ -12,7 +12,7 @@
     <string name="creator_url">https://github.com/ianindratama</string>
     <string name="pick_a_browser">Pick a browser:</string>
     <string name="no_foods_available">No Foods Available</string>
-    <string name="error_has_occured">An error has occured.\\nFailed to load data</string>
+    <string name="error_has_occured">An error has occurred.\\nFailed to load data</string>
     <string name="back">Back</string>
     <string name="origin">"Origin"</string>
     <string name="origin_value">Origin: %1s</string>description
@@ -22,4 +22,5 @@
     <string name="description_value">Description: %1s</string>
     <string name="search">Search</string>
     <string name="search_food">Search Food</string>
+    <string name="scroll_to_top">Scroll to top</string>
 </resources>

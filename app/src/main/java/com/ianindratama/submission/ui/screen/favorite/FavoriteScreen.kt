@@ -13,7 +13,8 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun FavoriteContent(modifier: Modifier = Modifier) {
-    Scaffold {
-        Text(text = "Hi from Favorite", modifier = Modifier.padding(it))
-    }
+    Text(text = "Hi from Favorite")
+//    Scaffold {
+//        Text(text = "Hi from Favorite", modifier = Modifier.padding(it))
+//    }
 }
