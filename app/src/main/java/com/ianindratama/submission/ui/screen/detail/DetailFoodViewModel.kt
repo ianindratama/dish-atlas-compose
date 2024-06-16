@@ -1,9 +1,5 @@
 package com.ianindratama.submission.ui.screen.detail
 
-import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianindratama.submission.data.FoodRepository
@@ -11,21 +7,17 @@ import com.ianindratama.submission.model.Food
 import com.ianindratama.submission.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class DetailFoodViewModel(
     private val repository: FoodRepository
-): ViewModel() {
-
+) : ViewModel() {
     private val _uiState: MutableStateFlow<UiState<Food>> =
         MutableStateFlow(UiState.Loading)
-
     val uiState: StateFlow<UiState<Food>>
         get() = _uiState
 
     private val _isFavorite: MutableStateFlow<Boolean> = MutableStateFlow(false)
-
     val isFavorite: StateFlow<Boolean>
         get() = _isFavorite
 
@@ -34,8 +26,7 @@ class DetailFoodViewModel(
             _uiState.value = UiState.Loading
 
             val food: Food? = repository.getFoodById(foodId)
-            Log.d("kwkwkw", "$food")
-            if (food != null){
+            if (food != null) {
                 _isFavorite.value = food.isFavorite
                 _uiState.value = UiState.Success(food)
             } else {
@@ -44,7 +35,7 @@ class DetailFoodViewModel(
         }
     }
 
-    fun setIsFavoriteFood(foodId: Long, isFavoriteFood: Boolean){
+    fun setIsFavoriteFood(foodId: Long, isFavoriteFood: Boolean) {
         viewModelScope.launch {
             repository.setIsFavoriteFood(foodId, isFavoriteFood)
             getFoodById(foodId)

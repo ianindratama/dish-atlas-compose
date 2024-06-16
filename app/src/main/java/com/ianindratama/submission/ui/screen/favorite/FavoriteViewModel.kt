@@ -12,8 +12,7 @@ import kotlinx.coroutines.launch
 
 class FavoriteViewModel(
     private val repository: FoodRepository
-): ViewModel() {
-
+) : ViewModel() {
     private val _uiState: MutableStateFlow<UiState<List<Food>>> = MutableStateFlow(UiState.Loading)
     val uiState: StateFlow<UiState<List<Food>>>
         get() = _uiState
@@ -23,7 +22,7 @@ class FavoriteViewModel(
             repository.getFavoriteFoods()
                 .catch {
                     _uiState.value = UiState.Error(it.message.toString())
-                }.collect{ foods ->
+                }.collect { foods ->
                     _uiState.value = UiState.Success(foods)
                 }
         }

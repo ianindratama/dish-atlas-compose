@@ -39,7 +39,6 @@ fun ProfileScreen(
         onClick = { toCreatorPage(context, context.getString(R.string.creator_url)) },
         modifier = modifier
     )
-
 }
 
 @Composable

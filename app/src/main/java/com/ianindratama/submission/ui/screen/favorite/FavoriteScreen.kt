@@ -58,7 +58,6 @@ fun FavoriteContent(
     modifier: Modifier = Modifier
 ) {
     if (favoriteFoods.isNotEmpty()){
-
         val listState = rememberLazyListState()
         LazyColumn(
             state = listState,

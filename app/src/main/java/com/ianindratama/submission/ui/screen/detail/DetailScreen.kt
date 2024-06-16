@@ -42,17 +42,18 @@ import com.ianindratama.submission.R
 import com.ianindratama.submission.ViewModelFactory
 import com.ianindratama.submission.di.Injection
 import com.ianindratama.submission.ui.common.UiState
+import com.ianindratama.submission.ui.components.NoDataToBeDisplayedContent
 
 @Composable
 fun DetailScreen(
     foodId: Long,
-    navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailFoodViewModel = viewModel(
         factory = ViewModelFactory(
             Injection.provideRepository()
         )
     ),
+    navigateBack: () -> Unit
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -87,10 +88,17 @@ fun DetailScreen(
                     )
                 }
             }
-            is UiState.Error -> {}
+            is UiState.Error -> {
+                NoDataToBeDisplayedContent(
+                    text = stringResource(
+                        id = R.string.error_has_occured
+                    )
+                )
+            }
         }
     }
 }
+
 @Composable
 fun DetailContent(
     name: String,

@@ -11,7 +11,7 @@ class FoodRepository {
 
     init {
         if (listOfFavoriteFood.isEmpty()) {
-            FakeFoodDataSource.dummyFoods.forEach{
+            FakeFoodDataSource.dummyFoods.forEach {
                 listOfFavoriteFood.add(it)
             }
         }
@@ -21,7 +21,7 @@ class FoodRepository {
         return flowOf(listOfFavoriteFood)
     }
 
-    fun getFoodById(foodId: Long): Food?{
+    fun getFoodById(foodId: Long): Food? {
         return listOfFavoriteFood.firstOrNull {
             it.id == foodId
         }
@@ -33,13 +33,13 @@ class FoodRepository {
         }
     }
 
-    fun getFavoriteFoods(): Flow<List<Food>>{
+    fun getFavoriteFoods(): Flow<List<Food>> {
         val favoriteFoods = listOfFavoriteFood.filter { it.isFavorite }
         return flowOf(favoriteFoods)
     }
 
-    fun setIsFavoriteFood(foodId: Long, isFavoriteFood: Boolean){
-        with(listOfFavoriteFood.first{ it.id == foodId }){
+    fun setIsFavoriteFood(foodId: Long, isFavoriteFood: Boolean) {
+        with(listOfFavoriteFood.first { it.id == foodId }) {
             this.isFavorite = !isFavoriteFood
         }
     }
@@ -47,7 +47,7 @@ class FoodRepository {
     companion object {
 
         @Volatile
-        private var instance: FoodRepository?= null
+        private var instance: FoodRepository? = null
 
         fun getInstance(): FoodRepository =
             instance ?: synchronized(this) {

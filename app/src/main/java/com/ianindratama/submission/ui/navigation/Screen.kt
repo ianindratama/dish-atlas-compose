@@ -2,10 +2,10 @@ package com.ianindratama.submission.ui.navigation
 
 sealed class Screen(val route: String) {
 
-    object Home: Screen("home")
-    object Favorite: Screen("favorite")
-    object Profile: Screen("profile")
-    object DetailFood: Screen("detail/{foodId}"){
+    data object Home: Screen("home")
+    data object Favorite: Screen("favorite")
+    data object Profile: Screen("profile")
+    data object DetailFood: Screen("detail/{foodId}"){
         fun createRoute(foodId: Long) = "detail/$foodId"
     }
 
