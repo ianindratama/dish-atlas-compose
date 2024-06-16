@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ianindratama.submission.data.FoodRepository
 import com.ianindratama.submission.ui.screen.detail.DetailFoodViewModel
+import com.ianindratama.submission.ui.screen.favorite.FavoriteViewModel
 import com.ianindratama.submission.ui.screen.home.HomeViewModel
 
+@Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val repository: FoodRepository): ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -13,6 +15,8 @@ class ViewModelFactory(private val repository: FoodRepository): ViewModelProvide
             return HomeViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(DetailFoodViewModel::class.java)) {
             return DetailFoodViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
+            return FavoriteViewModel(repository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

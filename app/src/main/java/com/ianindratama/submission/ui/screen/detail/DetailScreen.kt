@@ -2,18 +2,14 @@ package com.ianindratama.submission.ui.screen.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -26,25 +22,18 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.VerticalAlignmentLine
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -57,14 +46,13 @@ import com.ianindratama.submission.ui.common.UiState
 @Composable
 fun DetailScreen(
     foodId: Long,
+    navigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: DetailFoodViewModel = viewModel(
         factory = ViewModelFactory(
             Injection.provideRepository()
         )
     ),
-    navigateBack: () -> Unit,
-    navigateToFavorite: () -> Unit = {},
-    modifier: Modifier = Modifier
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -73,23 +61,36 @@ fun DetailScreen(
             }
             is UiState.Success -> {
                 val data = uiState.data
-                DetailContent(
-                    name = data.name,
-                    pictureUrl = data.foodPictureUrl,
-                    origin = data.origin,
-                    timeToMake = data.timeToMake,
-                    description = data.description,
-                    isFavorite = data.isFavorite,
-                    onBackClick = navigateBack
-                )
+                val isFavorite by viewModel.isFavorite.collectAsState()
 
+                Box(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    DetailContent(
+                        name = data.name,
+                        pictureUrl = data.foodPictureUrl,
+                        origin = data.origin,
+                        timeToMake = data.timeToMake,
+                        description = data.description,
+                        onBackClick = navigateBack,
+                        modifier = modifier
+                    )
+                    FavoriteButton(
+                        id = foodId,
+                        isFavorite = isFavorite,
+                        onSetFoodFavorite = viewModel::setIsFavoriteFood,
+                        modifier = modifier
+                            .padding(16.dp)
+                            .align(Alignment.BottomEnd)
+                    )
+                }
             }
             is UiState.Error -> {}
-
         }
     }
 }
-
 @Composable
 fun DetailContent(
     name: String,
@@ -97,77 +98,79 @@ fun DetailContent(
     origin: String,
     timeToMake: String,
     description: String,
-    isFavorite: Boolean,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    Box(
+    Column(
         modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
+            .verticalScroll(rememberScrollState())
     ) {
-        Column(
-            modifier = modifier
-                .verticalScroll(rememberScrollState())
-        ) {
-            Box {
-                AsyncImage(
-                    model = pictureUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = modifier
-                        .height(400.dp)
-                        .fillMaxWidth()
-                )
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back),
-                    modifier = modifier
-                        .padding(16.dp)
-                        .size(32.dp)
-                        .background(
-                            color = Color.White,
-                            shape = CircleShape,
-                        )
-                        .clickable { onBackClick() }
-                )
-            }
-            Text(
-                text = name,
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier
-                    .padding(8.dp)
+        Box {
+            AsyncImage(
+                model = pictureUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = modifier
+                    .height(400.dp)
+                    .fillMaxWidth()
             )
-            FoodInformationDetail(
-                icon = Icons.Default.LocationOn,
-                iconContentDescription = stringResource(id = R.string.origin),
-                information = stringResource(R.string.origin_value, origin)
-            )
-            FoodInformationDetail(
-                icon = Icons.Default.DateRange,
-                iconContentDescription = stringResource(id = R.string.timeToMake),
-                information = stringResource(R.string.timeToMake_value, timeToMake)
-            )
-            FoodInformationDetail(
-                icon = Icons.Default.Info,
-                iconContentDescription = stringResource(id = R.string.description),
-                information = stringResource(R.string.description_value, description)
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = stringResource(id = R.string.back),
+                modifier = modifier
+                    .padding(16.dp)
+                    .size(32.dp)
+                    .background(
+                        color = Color.White,
+                        shape = CircleShape,
+                    )
+                    .clickable { onBackClick() }
             )
         }
-        FloatingActionButton(
-            onClick = { /*TODO*/ },
-            modifier = modifier
-                .padding(16.dp)
-                .align(Alignment.BottomEnd)
-        ) {
-            Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = null)
+        Text(
+            text = name,
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier
+                .padding(8.dp)
+        )
+        FoodInformationDetail(
+            icon = Icons.Default.LocationOn,
+            iconContentDescription = stringResource(id = R.string.origin),
+            information = stringResource(R.string.origin_value, origin)
+        )
+        FoodInformationDetail(
+            icon = Icons.Default.DateRange,
+            iconContentDescription = stringResource(id = R.string.timeToMake),
+            information = stringResource(R.string.timeToMake_value, timeToMake)
+        )
+        FoodInformationDetail(
+            icon = Icons.Default.Info,
+            iconContentDescription = stringResource(id = R.string.description),
+            information = stringResource(R.string.description_value, description)
+        )
+    }
+}
+
+@Composable
+fun FavoriteButton(
+    id: Long,
+    isFavorite: Boolean,
+    onSetFoodFavorite: (Long, Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    FloatingActionButton(
+        onClick = { onSetFoodFavorite(id, isFavorite) },
+        modifier = modifier
+    ) {
+        if (isFavorite) {
+            Icon(imageVector = Icons.Default.Favorite, contentDescription = stringResource(id = R.string.remove_food_from_favorite))
+        } else {
+            Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = stringResource(id = R.string.add_food_to_favorite))
         }
     }
-
 }
 
 @Composable

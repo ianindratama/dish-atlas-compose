@@ -1,5 +1,8 @@
 package com.ianindratama.submission.ui.screen.profile
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,16 +27,16 @@ import com.ianindratama.submission.R
 
 @Composable
 fun ProfileScreen(
-    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
 
     ProfileContent(
         image = R.drawable.creator_photo,
         name = stringResource(id = R.string.creator_name),
         email = stringResource(id = R.string.creator_email),
         url = stringResource(id = R.string.creator_url),
-        onClick = onClick,
+        onClick = { toCreatorPage(context, context.getString(R.string.creator_url)) },
         modifier = modifier
     )
 
@@ -79,4 +83,17 @@ fun ProfileContent(
             )
         }
     }
+}
+
+private fun toCreatorPage(context: Context, url: String) {
+
+    val webPage = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW, webPage)
+
+    context.startActivity(
+        Intent.createChooser(
+            intent,
+            context.getString(R.string.pick_a_browser)
+        )
+    )
 }

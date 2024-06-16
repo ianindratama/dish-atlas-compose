@@ -57,6 +57,8 @@ import com.ianindratama.submission.data.FoodRepository
 import com.ianindratama.submission.di.Injection
 import com.ianindratama.submission.model.Food
 import com.ianindratama.submission.ui.common.UiState
+import com.ianindratama.submission.ui.components.FoodListItem
+import com.ianindratama.submission.ui.components.NoDataToBeDisplayedContent
 import com.ianindratama.submission.ui.theme.SubmissionTheme
 import kotlinx.coroutines.launch
 
@@ -189,61 +191,6 @@ fun SearchBar(
             .heightIn(min = 48.dp)
     ) {
 
-    }
-}
-
-@Composable
-fun NoDataToBeDisplayedContent(
-    text: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        contentAlignment = Alignment.CenterStart,
-        modifier = modifier
-    ){
-        Text(text = text)
-    }
-}
-
-@Composable
-fun FoodListItem(
-    id: Long,
-    name: String,
-    origin: String,
-    photoUrl: String,
-    navigateToDetail: (Long) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable {
-            navigateToDetail(id)
-        }
-    ) {
-        AsyncImage(
-            model = photoUrl,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .padding(8.dp)
-                .size(120.dp)
-                .clip(CircleShape)
-        )
-        Column {
-            Text(
-                text = name,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp)
-            )
-            Text(
-                text = "Origin: $origin",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp)
-            )
-        }
     }
 }
 

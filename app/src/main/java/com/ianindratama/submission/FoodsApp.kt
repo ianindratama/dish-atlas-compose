@@ -89,15 +89,12 @@ fun FoodsApp(
                 )
             }
             composable(Screen.Favorite.route) {
-                FavoriteScreen(modifier = modifier.background(Color.Cyan))
+                FavoriteScreen(navigateToDetail = { foodId ->
+                    navController.navigate(Screen.DetailFood.createRoute(foodId))
+                })
             }
             composable(Screen.Profile.route) {
-                val context = LocalContext.current
-                ProfileScreen(
-                    onClick = {
-                        toCreatorPage(context, it)
-                    }
-                )
+                ProfileScreen()
             }
             composable(
                 route = Screen.DetailFood.route,
@@ -112,8 +109,7 @@ fun FoodsApp(
                     foodId = id,
                     navigateBack = {
                         navController.navigateUp()
-                    },
-                    navigateToFavorite = {}
+                    }
                 )
             }
         }
@@ -158,19 +154,6 @@ fun BottomBar(
         }
     }
 
-}
-
-private fun toCreatorPage(context: Context, url: String) {
-
-    val webPage = Uri.parse(url)
-    val intent = Intent(Intent.ACTION_VIEW, webPage)
-
-    context.startActivity(
-        Intent.createChooser(
-            intent,
-            context.getString(R.string.pick_a_browser)
-        )
-    )
 }
 
 @Preview(showBackground = true)

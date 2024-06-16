@@ -21,8 +21,8 @@ class FoodRepository {
         return flowOf(listOfFavoriteFood)
     }
 
-    fun getFoodById(foodId: Long): Food{
-        return listOfFavoriteFood.first {
+    fun getFoodById(foodId: Long): Food?{
+        return listOfFavoriteFood.firstOrNull {
             it.id == foodId
         }
     }
@@ -30,6 +30,17 @@ class FoodRepository {
     fun searchFoods(query: String): List<Food> {
         return listOfFavoriteFood.filter {
             it.name.contains(query, ignoreCase = true)
+        }
+    }
+
+    fun getFavoriteFoods(): Flow<List<Food>>{
+        val favoriteFoods = listOfFavoriteFood.filter { it.isFavorite }
+        return flowOf(favoriteFoods)
+    }
+
+    fun setIsFavoriteFood(foodId: Long, isFavoriteFood: Boolean){
+        with(listOfFavoriteFood.first{ it.id == foodId }){
+            this.isFavorite = !isFavoriteFood
         }
     }
 

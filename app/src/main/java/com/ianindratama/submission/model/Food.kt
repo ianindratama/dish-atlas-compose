@@ -7,5 +7,5 @@ data class Food(
     val origin: String,
     val timeToMake: String,
     val description: String,
-    val isFavorite: Boolean
+    var isFavorite: Boolean
 )

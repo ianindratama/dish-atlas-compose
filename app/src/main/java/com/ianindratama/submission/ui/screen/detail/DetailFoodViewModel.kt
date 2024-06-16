@@ -1,5 +1,9 @@
 package com.ianindratama.submission.ui.screen.detail
 
+import android.util.Log
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianindratama.submission.data.FoodRepository
@@ -20,10 +24,30 @@ class DetailFoodViewModel(
     val uiState: StateFlow<UiState<Food>>
         get() = _uiState
 
+    private val _isFavorite: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+    val isFavorite: StateFlow<Boolean>
+        get() = _isFavorite
+
     fun getFoodById(foodId: Long) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            _uiState.value = UiState.Success(repository.getFoodById(foodId))
+
+            val food: Food? = repository.getFoodById(foodId)
+            Log.d("kwkwkw", "$food")
+            if (food != null){
+                _isFavorite.value = food.isFavorite
+                _uiState.value = UiState.Success(food)
+            } else {
+                _uiState.value = UiState.Error("An error has occurred")
+            }
+        }
+    }
+
+    fun setIsFavoriteFood(foodId: Long, isFavoriteFood: Boolean){
+        viewModelScope.launch {
+            repository.setIsFavoriteFood(foodId, isFavoriteFood)
+            getFoodById(foodId)
         }
     }
 
