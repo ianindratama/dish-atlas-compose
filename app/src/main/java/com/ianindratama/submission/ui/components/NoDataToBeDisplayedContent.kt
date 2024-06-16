@@ -12,7 +12,7 @@ fun NoDataToBeDisplayedContent(
     modifier: Modifier = Modifier
 ) {
     Box(
-        contentAlignment = Alignment.CenterStart,
+        contentAlignment = Alignment.Center,
         modifier = modifier
     ){
         Text(text = text)

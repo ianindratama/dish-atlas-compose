@@ -1,6 +1,7 @@
 package com.ianindratama.submission.ui.screen.favorite
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -41,7 +42,9 @@ fun FavoriteScreen(
             }
             is UiState.Error -> {
                 NoDataToBeDisplayedContent(
-                    text = stringResource(id = R.string.error_has_occured)
+                    text = stringResource(
+                        id = R.string.error_has_occured
+                    )
                 )
             }
         }
@@ -54,14 +57,13 @@ fun FavoriteContent(
     navigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    if (favoriteFoods.isNotEmpty()){
 
-    val listState = rememberLazyListState()
-
-    LazyColumn(
-        state = listState,
-        contentPadding = PaddingValues(bottom = 40.dp)
-    ) {
-        if (favoriteFoods.isNotEmpty()){
+        val listState = rememberLazyListState()
+        LazyColumn(
+            state = listState,
+            contentPadding = PaddingValues(bottom = 40.dp)
+        ) {
             items(favoriteFoods, key = { it.id }) { food ->
                 FoodListItem(
                     id = food.id,
@@ -73,12 +75,15 @@ fun FavoriteContent(
                         .fillMaxWidth()
                 )
             }
-        } else {
-            item {
-                NoDataToBeDisplayedContent(
-                    text = stringResource(id = R.string.no_foods_available)
-                )
-            }
         }
+    } else {
+        NoDataToBeDisplayedContent(
+            text = stringResource(
+                id = R.string.no_favorite_foods_available
+            ),
+            modifier = modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        )
     }
 }

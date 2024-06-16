@@ -25,4 +25,5 @@
     <string name="scroll_to_top">Scroll to top</string>
     <string name="remove_food_from_favorite">Remove food from favorite</string>
     <string name="add_food_to_favorite">Add food to favorite</string>
+    <string name="no_favorite_foods_available">No favorite food added. Add some from the list!</string>
 </resources>
