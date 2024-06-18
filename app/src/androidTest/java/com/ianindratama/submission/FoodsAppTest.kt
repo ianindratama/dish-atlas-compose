@@ -2,13 +2,9 @@ package com.ianindratama.submission
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
-import androidx.compose.ui.test.assertValueEquals
-import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
@@ -106,16 +102,17 @@ class FoodsAppTest {
 
     @Test
     fun navHost_verifyAddedItemOnFavoriteScreenRemoved(){
-        composeTestRule.onNodeWithText(FakeFoodDataSource.dummyFoods[0].name).performClick()
+        composeTestRule.onNodeWithText(FakeFoodDataSource.dummyFoods[1].name).performClick()
+        navController.assertCurrentRouteName(Screen.DetailFood.route)
         composeTestRule.onNodeWithContentDescriptionWithStringId(R.string.add_food_to_favorite).performClick()
         composeTestRule.onNodeWithContentDescriptionWithStringId(R.string.back).performClick()
 
         composeTestRule.onNodeWithContentDescriptionWithStringId(R.string.menu_favorite_description, useUnmergedTree = true).performClick()
-        composeTestRule.onNodeWithText(FakeFoodDataSource.dummyFoods[0].name).performClick()
+        composeTestRule.onNodeWithText(FakeFoodDataSource.dummyFoods[1].name).performClick()
         composeTestRule.onNodeWithContentDescriptionWithStringId(R.string.remove_food_from_favorite).performClick()
         composeTestRule.onNodeWithContentDescriptionWithStringId(R.string.back).performClick()
 
-        composeTestRule.onNodeWithText(FakeFoodDataSource.dummyFoods[0].name).assertIsNotDisplayed()
+        composeTestRule.onNodeWithText(FakeFoodDataSource.dummyFoods[1].name).assertIsNotDisplayed()
     }
 
 }

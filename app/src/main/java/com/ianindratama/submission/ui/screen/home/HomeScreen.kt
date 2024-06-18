@@ -9,6 +9,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,13 +65,24 @@ fun HomeScreen(
                 viewModel.getAllFoods()
             }
             is UiState.Success -> {
-                HomeContent(
-                    foods = uiState.data,
-                    searchFoodQuery = query,
-                    searchFoodFunction = viewModel::search,
-                    navigateToDetail = navigateToDetail,
+                Column(
                     modifier = modifier
-                )
+                ) {
+                    SearchBar(
+                        query = query,
+                        onQueryChange = viewModel::search,
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.primary)
+                    )
+                    HomeContent(
+                        foods = uiState.data,
+                        navigateToDetail = { foodId ->
+                            viewModel.clearQuery()
+                            navigateToDetail(foodId)
+                        },
+                        modifier = modifier
+                    )
+                }
             }
             is UiState.Error -> {
                 NoDataToBeDisplayedContent(
@@ -85,20 +97,17 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     foods: List<Food>,
-    searchFoodQuery: String,
-    searchFoodFunction: (String) -> Unit,
     navigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scope = rememberCoroutineScope()
+    val listState = rememberLazyListState()
+    val showUpButton: Boolean by remember {
+        derivedStateOf { listState.firstVisibleItemIndex > 0 }
+    }
     Box(
         modifier = modifier
     ) {
-        val scope = rememberCoroutineScope()
-        val listState = rememberLazyListState()
-        val showUpButton: Boolean by remember {
-            derivedStateOf { listState.firstVisibleItemIndex > 0 }
-        }
-
         if (foods.isNotEmpty()) {
             LazyColumn(
                 state = listState,
@@ -106,14 +115,6 @@ fun HomeContent(
                 modifier = modifier
                     .testTag(stringResource(id = R.string.food_list))
             ){
-                stickyHeader {
-                    SearchBar(
-                        query = searchFoodQuery,
-                        onQueryChange = searchFoodFunction,
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.primary)
-                    )
-                }
                 items(foods, key = { it.id }) { food ->
                     FoodListItem(
                         id = food.id,

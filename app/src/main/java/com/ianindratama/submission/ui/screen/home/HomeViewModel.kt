@@ -31,6 +31,10 @@ class HomeViewModel(
         )
     }
 
+    fun clearQuery(){
+        _query.value = ""
+    }
+
     fun getAllFoods() {
         viewModelScope.launch {
             repository.getAllFoods()
