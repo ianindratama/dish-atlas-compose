@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -101,7 +102,9 @@ fun HomeContent(
         if (foods.isNotEmpty()) {
             LazyColumn(
                 state = listState,
-                contentPadding = PaddingValues(bottom = 40.dp)
+                contentPadding = PaddingValues(bottom = 40.dp),
+                modifier = modifier
+                    .testTag(stringResource(id = R.string.food_list))
             ){
                 stickyHeader {
                     SearchBar(

@@ -127,7 +127,7 @@ fun BottomBar(
                 icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = item.title
+                        contentDescription = item.screenDescription
                     )
                 },
                 label = { Text(text = item.title) },

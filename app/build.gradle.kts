@@ -69,4 +69,6 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.coil)
+
+    androidTestImplementation(libs.androidx.navigation.testing)
 }
