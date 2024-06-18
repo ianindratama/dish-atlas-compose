@@ -19,5 +19,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.o
 ): SemanticsNodeInteraction = onNodeWithContentDescription(activity.getString(id), useUnmergedTree = useUnmergedTree)
 
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.onNodeWithTagWithStringId(
-    @StringRes id: Int
-): SemanticsNodeInteraction = onNodeWithTag(activity.getString(id))
+    @StringRes id: Int,
+    useUnmergedTree: Boolean = false
+): SemanticsNodeInteraction = onNodeWithTag(activity.getString(id), useUnmergedTree = useUnmergedTree)
+

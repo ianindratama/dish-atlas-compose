@@ -36,6 +36,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -165,6 +167,8 @@ fun SearchBar(
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val componentContentDescription = stringResource(id = R.string.search_food)
+
     androidx.compose.material3.SearchBar(
         query = query,
         onQueryChange = onQueryChange,
@@ -178,12 +182,13 @@ fun SearchBar(
             )
         },
         placeholder = {
-            Text(text = stringResource(id = R.string.search_food))
+            Text(text = componentContentDescription)
         },
         modifier = modifier
             .padding(16.dp)
             .fillMaxWidth()
             .heightIn(min = 48.dp)
+            .semantics { contentDescription = componentContentDescription }
     ){
 
     }

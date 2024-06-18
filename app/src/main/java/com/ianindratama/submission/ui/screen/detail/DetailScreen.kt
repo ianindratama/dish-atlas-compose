@@ -14,7 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -121,9 +122,10 @@ fun DetailContent(
                 modifier = modifier
                     .height(400.dp)
                     .fillMaxWidth()
+                    .testTag(pictureUrl)
             )
             Icon(
-                imageVector = Icons.Default.ArrowBack,
+                imageVector = Icons.AutoMirrored.Default.ArrowBack,
                 contentDescription = stringResource(id = R.string.back),
                 modifier = modifier
                     .padding(16.dp)
@@ -146,17 +148,17 @@ fun DetailContent(
         )
         FoodInformationDetail(
             icon = Icons.Default.LocationOn,
-            iconContentDescription = stringResource(id = R.string.origin),
+            itemContentDescription = stringResource(id = R.string.origin),
             information = stringResource(R.string.origin_value, origin)
         )
         FoodInformationDetail(
             icon = Icons.Default.DateRange,
-            iconContentDescription = stringResource(id = R.string.timeToMake),
+            itemContentDescription = stringResource(id = R.string.timeToMake),
             information = stringResource(R.string.timeToMake_value, timeToMake)
         )
         FoodInformationDetail(
             icon = Icons.Default.Info,
-            iconContentDescription = stringResource(id = R.string.description),
+            itemContentDescription = stringResource(id = R.string.description),
             information = stringResource(R.string.description_value, description)
         )
     }
@@ -172,6 +174,7 @@ fun FavoriteButton(
     FloatingActionButton(
         onClick = { onSetFoodFavorite(id, isFavorite) },
         modifier = modifier
+            .testTag(stringResource(id = R.string.fab_favorite_button))
     ) {
         if (isFavorite) {
             Icon(imageVector = Icons.Default.Favorite, contentDescription = stringResource(id = R.string.remove_food_from_favorite))
@@ -184,15 +187,16 @@ fun FavoriteButton(
 @Composable
 fun FoodInformationDetail(
     icon: ImageVector,
-    iconContentDescription: String,
+    itemContentDescription: String,
     information: String,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .padding(8.dp)
+            .testTag(itemContentDescription)
     ) {
-        Icon(imageVector = icon, contentDescription = iconContentDescription)
+        Icon(imageVector = icon, contentDescription = itemContentDescription)
         Text(
             text = information,
             style = MaterialTheme.typography.bodyMedium.copy(

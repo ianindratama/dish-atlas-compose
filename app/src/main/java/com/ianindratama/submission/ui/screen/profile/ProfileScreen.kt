@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,12 +58,13 @@ fun ProfileContent(
     ) {
         Image(
             painter = painterResource(id = image),
-            contentDescription = null,
+            contentDescription = stringResource(id = R.string.creator_image),
             contentScale = ContentScale.Crop,
             modifier = modifier
                 .padding(16.dp)
                 .size(240.dp)
                 .clip(CircleShape)
+                .testTag(image.toString())
         )
         Text(
             text = name,

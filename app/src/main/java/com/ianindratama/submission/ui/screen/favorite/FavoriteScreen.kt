@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -61,7 +62,9 @@ fun FavoriteContent(
         val listState = rememberLazyListState()
         LazyColumn(
             state = listState,
-            contentPadding = PaddingValues(bottom = 40.dp)
+            contentPadding = PaddingValues(bottom = 40.dp),
+            modifier = modifier
+                .testTag(stringResource(id = R.string.favorite_food_list))
         ) {
             items(favoriteFoods, key = { it.id }) { food ->
                 FoodListItem(

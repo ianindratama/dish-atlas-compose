@@ -14,8 +14,8 @@
     <string name="no_foods_available">No Foods Available</string>
     <string name="error_has_occured">An error has occurred.\\nFailed to load data</string>
     <string name="back">Back</string>
-    <string name="origin">"Origin"</string>
-    <string name="origin_value">Origin: %1s</string>description
+    <string name="origin">Origin</string>
+    <string name="origin_value">Origin: %1s</string>
     <string name="timeToMake">Time to make</string>
     <string name="timeToMake_value">Time to make: %1s</string>
     <string name="description">Description</string>
@@ -27,4 +27,7 @@
     <string name="add_food_to_favorite">Add food to favorite</string>
     <string name="no_favorite_foods_available">No favorite food added. Add some from the list!</string>
     <string name="food_list">FoodList</string>
+    <string name="creator_image">Creator Image</string>
+    <string name="favorite_food_list">FavoriteFoodList</string>
+    <string name="fab_favorite_button">FAB Favorite Button</string>
 </resources>
