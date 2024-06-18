@@ -84,12 +84,6 @@ class FoodsAppTest {
         composeTestRule.onNodeWithText("Description: ${FakeFoodDataSource.dummyFoods[9].description}").assertIsDisplayed()
     }
 
-//    @Test
-//    fun navHost_checkIfFirstItemDisplayAf(){
-//        composeTestRule.onNodeWithTagWithStringId(R.string.food_list).performScrollToIndex(9)
-//        composeTestRule.onNodeWithTagWithStringId()
-//    }
-
     @Test
     fun navHost_verifyAddedItemOnFavoriteScreen(){
         composeTestRule.onNodeWithText(FakeFoodDataSource.dummyFoods[0].name).performClick()
