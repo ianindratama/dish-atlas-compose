@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Submission"
+rootProject.name = "DishAtlas"
 include(":app")

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Submission</string>
+    <string name="app_name">Dish Atlas</string>
     <string name="menu_home">Home</string>
     <string name="menu_favorite">Favorite</string>
     <string name="menu_profile">Profile</string>

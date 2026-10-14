@@ -1,0 +1,47 @@
+{
+  "repository": "https://github.com/ianindratama/dish-atlas-compose",
+  "commit": "d7ffd97e21a1be81ce6e8d82fcdeb69119181933",
+  "branch": "main",
+  "visualType": "source reconstruction",
+  "uiSources": [
+    "app/src/main/java/com/ianindratama/submission/FoodsApp.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/screen/home/HomeScreen.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/screen/detail/DetailScreen.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/screen/favorite/FavoriteScreen.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/components/FoodListItem.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/components/NoDataToBeDisplayedContent.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/theme/Color.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/theme/Theme.kt",
+    "app/src/main/res/values/strings.xml"
+  ],
+  "mechanismSources": [
+    "app/src/main/java/com/ianindratama/submission/data/FoodRepository.kt",
+    "app/src/main/java/com/ianindratama/submission/model/FakeFoodDataSource.kt",
+    "app/src/main/java/com/ianindratama/submission/model/Food.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/screen/home/HomeViewModel.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/screen/detail/DetailFoodViewModel.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/screen/favorite/FavoriteViewModel.kt",
+    "app/src/main/java/com/ianindratama/submission/ui/navigation/Screen.kt",
+    "app/build.gradle.kts",
+    "gradle/wrapper/gradle-wrapper.properties"
+  ],
+  "limitations": [
+    "Native build attempt timed out after 180 seconds before task results; no APK or instrumentation execution verified.",
+    "UI is reconstructed from source; photos are marked as uncaptured, icons and metrics are approximate, and Android 12+ dynamic colors can differ.",
+    "Favorites are process-local mutable state; no database persistence.",
+    "Ten bundled dishes are sample content; no release, adoption, or user outcome is established."
+  ],
+  "attribution": [
+    "Personal Dicoding Jetpack Compose course submission.",
+    "Course-derived scaffolding and dependencies are not claimed as original work.",
+    "Generic public About profile replaces the original portrait and contact details across all retained history."
+  ],
+  "history": {
+    "retainedCommits": 14,
+    "metadata": "Author/committer names, dates and messages preserved; emails use GitHub noreply. Paths and hashes changed during extraction.",
+    "privateWorkspaceFiles": "Excluded from every retained revision."
+  },
+  "fontSources": [
+    "Roboto from previously reviewed GithubClone original assets; Apache license retained."
+  ]
+}
